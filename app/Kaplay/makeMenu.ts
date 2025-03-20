@@ -1,27 +1,36 @@
 import {KAPLAYCtx} from "kaplay";
 
-export const makeMenu = (k: KAPLAYCtx) => {
+export const makeMenu = (k: KAPLAYCtx, user: string) => {
     return k.scene("menu", () => {
 
         const music = k.play("bgMusic", {volume: 0.1, loop: true})
 
         k.add([
-            k.text("👾 Space to shoot", {
-                size: 16,
+            k.text(`Welcome ${user}`, {
+                size: 32,
                 font: "press2p"
             }),
             k.anchor("center"),
             k.color(k.Color.fromHex("#e0f8c8")),
-            k.pos(k.center().x, k.center().y + 128)
+            k.pos(k.center().x, k.center().y - 68)
         ]);
         k.add([
-            k.text("→ Arrow keys to move around", {
+            k.text("🔫 Space to shoot", {
                 size: 16,
                 font: "press2p"
             }),
             k.anchor("center"),
             k.color(k.Color.fromHex("#e0f8c8")),
-            k.pos(k.center().x, k.center().y + 148)
+            k.pos(k.center().x, k.center().y + 68)
+        ]);
+        k.add([
+            k.text("➡️ Arrow keys to move around", {
+                size: 16,
+                font: "press2p"
+            }),
+            k.anchor("center"),
+            k.color(k.Color.fromHex("#e0f8c8")),
+            k.pos(k.center().x, k.center().y + 88)
         ]);
         k.add([
             k.text("❌ Esc to exit", {
@@ -30,7 +39,7 @@ export const makeMenu = (k: KAPLAYCtx) => {
             }),
             k.anchor("center"),
             k.color(k.Color.fromHex("#e0f8c8")),
-            k.pos(k.center().x, k.center().y + 168)
+            k.pos(k.center().x, k.center().y + 108)
         ]);
 
 

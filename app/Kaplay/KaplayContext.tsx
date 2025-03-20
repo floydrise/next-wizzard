@@ -9,7 +9,7 @@ import { makeGameOver } from "@/app/Kaplay/makeGameOver";
 import { useAtomValue } from "jotai";
 import { scoreAtom } from "@/lib/store";
 
-export const KaplayContext = () => {
+export const KaplayContext = ({ user }: { user: string }) => {
   const score = useAtomValue(scoreAtom);
   useEffect(() => {
     const k = kaplay({
@@ -25,13 +25,11 @@ export const KaplayContext = () => {
     });
 
     loadAssets(k);
-    makeMenu(k);
+    makeMenu(k, user);
     makeGame(k);
     makeGameOver(k);
     k.go("menu");
   }, []);
-  useEffect(() => {
-    console.log(score);
-  }, [score]);
+  useEffect(() => {}, [score]);
   return <div></div>;
 };
