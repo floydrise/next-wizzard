@@ -72,5 +72,8 @@ export const makeMenu = (k: KAPLAYCtx, user: string) => {
             k.go("game")
         });
 
+        k.onKeyPress("enter", () => {
+            k.go("game");
+        })
     })
 }
