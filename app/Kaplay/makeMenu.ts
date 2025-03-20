@@ -3,8 +3,6 @@ import {KAPLAYCtx} from "kaplay";
 export const makeMenu = (k: KAPLAYCtx, user: string) => {
     return k.scene("menu", () => {
 
-        const music = k.play("bgMusic", {volume: 0.1, loop: true})
-
         k.add([
             k.text(`Welcome ${user}`, {
                 size: 32,
@@ -72,7 +70,6 @@ export const makeMenu = (k: KAPLAYCtx, user: string) => {
         k.onClick("startButton", () => {
             k.setCursor("default");
             k.go("game")
-            music.stop()
         });
 
     })

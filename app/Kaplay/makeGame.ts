@@ -31,7 +31,7 @@ export const makeGame = (k: KAPLAYCtx) => {
 
     const player = k.add([
       k.pos(k.center().x, 700 - 64),
-      k.sprite("wizard"),
+      k.sprite("advancedWizard", {anim: "idle"}),
       k.area(),
       k.body(),
       k.anchor("center"),
@@ -45,10 +45,10 @@ export const makeGame = (k: KAPLAYCtx) => {
     const makeEnemy = () => {
       return k.add([
         k.pos(k.rand(k.vec2(k.width(), 0))),
-        k.sprite("pumpkinGuy"),
+        k.sprite("pumpkinGuy", {anim: "run"}),
         k.area(),
         k.anchor("center"),
-        k.scale(4),
+        k.scale(3),
         {
           speed: 100,
           fireTimer: 0,

@@ -29,7 +29,7 @@ export const KaplayContext = ({ user }: { user: string }) => {
     makeGame(k);
     makeGameOver(k);
     k.go("menu");
-  }, []);
+  }, [user]);
   useEffect(() => {}, [score]);
   return <div></div>;
 };
