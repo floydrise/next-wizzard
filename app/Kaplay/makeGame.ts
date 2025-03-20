@@ -3,6 +3,7 @@ import { scoreAtom, store } from "@/lib/store";
 
 export const makeGame = (k: KAPLAYCtx) => {
   return k.scene("game", () => {
+
     const music = k.play("battleMusic", { volume: 0.5, loop: true });
     k.add([
       k.pos(0, 0),
@@ -63,6 +64,7 @@ export const makeGame = (k: KAPLAYCtx) => {
     }
 
     k.onKeyDown("left", () => {
+      player.flipX = true;
       player.move(-player.speed, 0);
       if (player.pos.x <= 32) {
         player.pos.x = 32;
@@ -70,6 +72,7 @@ export const makeGame = (k: KAPLAYCtx) => {
     });
 
     k.onKeyDown("right", () => {
+      player.flipX = false;
       player.move(player.speed, 0);
       if (player.pos.x >= 1280 - 32) {
         player.pos.x = 1280 - 32;
