@@ -1,5 +1,5 @@
 import {KAPLAYCtx} from "kaplay";
-import {PrimitiveAtom} from "jotai/vanilla/atom";
+import {scoreAtom, store} from "@/lib/store";
 
 
 
@@ -172,6 +172,7 @@ export const makeGame = (k: KAPLAYCtx) => {
             k.destroy(player);
             k.destroy(enemy);
             k.play("explosion");
+            store.set(scoreAtom, score.value);
             k.go("gameOver")
             music.stop();
         })
@@ -180,6 +181,7 @@ export const makeGame = (k: KAPLAYCtx) => {
             k.destroy(player);
             k.destroy(arrow);
             k.play("explosion");
+            store.set(scoreAtom, score.value);
             k.go("gameOver");
             music.stop();
         })

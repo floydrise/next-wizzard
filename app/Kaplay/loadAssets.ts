@@ -7,6 +7,7 @@ export const loadAssets = (k: KAPLAYCtx) => {
   k.loadSprite("magic", "/sprites/fireball.gif");
   k.loadSprite("arrow", "/sprites/arrow.png");
   k.loadSprite("background", "/sprites/dark_green_grass_background.png");
+  k.loadSprite("customCursor", "/sprites/pointer_c.png");
 
   k.loadFont("press2p", "/fonts/PixelOperator8.ttf");
 

@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "jotai": "^2.12.2",
-    "kaplay": "^3001.0.9",
+    "kaplay": "^4000.0.0-alpha.10",
     "next": "15.2.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"

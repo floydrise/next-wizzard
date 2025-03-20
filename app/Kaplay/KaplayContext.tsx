@@ -6,9 +6,11 @@ import {loadAssets} from "@/app/Kaplay/loadAssets";
 import {makeMenu} from "@/app/Kaplay/makeMenu";
 import {makeGame} from "@/app/Kaplay/makeGame";
 import {makeGameOver} from "@/app/Kaplay/makeGameOver";
-
+import {useAtomValue} from "jotai";
+import {scoreAtom} from "@/lib/store";
 
 export const KaplayContext = () => {
+    const score = useAtomValue(scoreAtom)
     useEffect(() => {
         const k = kaplay({
             letterbox: true,
@@ -26,10 +28,11 @@ export const KaplayContext = () => {
         makeMenu(k);
         makeGame(k);
         makeGameOver(k);
-
         k.go("menu");
-
     }, []);
+    useEffect(() => {
+        console.log(score)
+    }, [score])
     return (
         <div></div>
     )

@@ -2,6 +2,7 @@ import {KAPLAYCtx} from "kaplay";
 
 export const makeMenu = (k: KAPLAYCtx) => {
     return k.scene("menu", () => {
+
         const music = k.play("bgMusic", {volume: 0.1, loop: true})
 
         k.add([
@@ -39,6 +40,7 @@ export const makeMenu = (k: KAPLAYCtx) => {
             k.color(k.Color.fromHex("#306850")),
             k.anchor("center"),
             k.area(),
+            k.layer("button"),
             "startButton"
         ]);
 

@@ -1,7 +1,9 @@
 import {KAPLAYCtx} from "kaplay";
+import {scoreAtom, store} from "@/lib/store";
 
 export const makeGameOver = (k: KAPLAYCtx) => {
     return k.scene("gameOver", () => {
+        const gameScore = store.get(scoreAtom)
         const music = k.play("bgMusic", {volume: 0.3})
         k.add([
             k.text("Game Over", {
@@ -13,11 +15,21 @@ export const makeGameOver = (k: KAPLAYCtx) => {
             k.anchor("center")
         ])
         k.add([
-            k.text("Press enter to play again", {
+            k.text(`Score: ${gameScore}`, {
                 size: 24,
                 font: "press2p",
             }),
             k.pos(k.center().x, k.center().y + 64),
+            k.color(k.Color.fromHex("#e0f8cf")),
+            k.anchor("center")
+        ])
+
+        k.add([
+            k.text("Press Enter to play or Esc to go to menu", {
+                size: 24,
+                font: "press2p",
+            }),
+            k.pos(k.center().x, k.center().y + 104),
             k.color(k.Color.fromHex("#e0f8cf")),
             k.anchor("center")
         ])
