@@ -52,13 +52,16 @@ export const makeMenu = (k: KAPLAYCtx) => {
 
         k.onHover("startButton", () => {
             startButton.color = k.Color.fromHex("#e0f8cf")
+            k.setCursor("pointer");
         });
 
         k.onHoverEnd("startButton", () => {
-            startButton.color = k.Color.fromHex("#306850")
+            startButton.color = k.Color.fromHex("#306850");
+            k.setCursor("default")
         });
 
         k.onClick("startButton", () => {
+            k.setCursor("default");
             k.go("game")
             music.stop()
         });
