@@ -13,7 +13,7 @@ export const makeMenu = (k: KAPLAYCtx, user: string) => {
             k.pos(k.center().x, k.center().y - 68)
         ]);
         k.add([
-            k.text("🔫 Space to shoot", {
+            k.text("🧙🏼‍♂️ Space to shoot", {
                 size: 16,
                 font: "press2p"
             }),
@@ -22,7 +22,7 @@ export const makeMenu = (k: KAPLAYCtx, user: string) => {
             k.pos(k.center().x, k.center().y + 68)
         ]);
         k.add([
-            k.text("➡️ Arrow keys to move around", {
+            k.text("🧌 Arrow keys to move around", {
                 size: 16,
                 font: "press2p"
             }),
@@ -31,7 +31,7 @@ export const makeMenu = (k: KAPLAYCtx, user: string) => {
             k.pos(k.center().x, k.center().y + 88)
         ]);
         k.add([
-            k.text("❌ Esc to exit", {
+            k.text("🧝🏼‍♀️ Esc to exit", {
                 size: 16,
                 font: "press2p"
             }),
