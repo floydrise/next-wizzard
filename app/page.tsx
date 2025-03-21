@@ -11,7 +11,7 @@ export default async function Home() {
         id={"game-container"}
         className={"w-full h-full relative"}
       ></canvas>
-      <div className={"absolute top-6 right-5"}>
+      <div className={"absolute top-5 right-20"}>
         <SignOut />
       </div>
     </div>

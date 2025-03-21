@@ -1,16 +1,23 @@
 import { KAPLAYCtx } from "kaplay";
 
 export const loadAssets = (k: KAPLAYCtx) => {
-  k.loadSprite("skeleton", "/sprites/skelet_idle_anim_f0.png");
+  k.loadSprite("background", "/sprites/dark_green_grass_background.png");
+  k.loadSprite("sandBackground", "/sprites/sandBackground.png");
+  k.loadSprite("skeleton", "/sprites/skeletonRun.png", {
+    sliceY: 1,
+    sliceX: 4,
+    anims: {
+      run: { from: 0, to: 3, loop: true },
+    },
+  });
   k.loadSprite("pumpkinGuy", "/sprites/pumpkinGuyAnimation.png", {
     sliceY: 1,
     sliceX: 4,
     anims: {
-      run: {from: 0, to: 3, loop: true}
-    }
+      run: { from: 0, to: 3, loop: true },
+    },
   });
   k.loadSprite("arrow", "/sprites/arrow.png");
-  k.loadSprite("background", "/sprites/dark_green_grass_background.png");
   k.loadSprite("customCursor", "/sprites/pointer_c.png");
   k.loadSprite("advancedWizard", "/sprites/littleMageAnimation2.png", {
     sliceY: 2,
@@ -24,16 +31,16 @@ export const loadAssets = (k: KAPLAYCtx) => {
     sliceY: 1,
     sliceX: 2,
     anims: {
-      attack: {from: 0, to: 1, loop: true}
-    }
-  })
+      attack: { from: 0, to: 1, loop: true },
+    },
+  });
   k.loadSprite("magic", "/sprites/magicBall.png", {
     sliceY: 1,
     sliceX: 30,
     anims: {
-      fire: {from: 0, to: 29, loop: true},
-    }
-  })
+      fire: { from: 0, to: 29, loop: true },
+    },
+  });
 
   k.loadFont("press2p", "/fonts/PixelOperator8.ttf");
 
@@ -41,7 +48,11 @@ export const loadAssets = (k: KAPLAYCtx) => {
   k.loadSound("wind", "/sounds/wind.mp3");
   k.loadSound("explosion", "/sounds/explosion.mp3");
   k.loadSound("walk", "/sounds/walk.mp3");
+  k.loadSound("arcaneAttack", "/sounds/arcaneAttack.wav");
+  k.loadSound("wobbleAttack", "/sounds/wobbleAttack.wav")
+  k.loadSound("death", "/sounds/death.mp3")
 
   k.loadMusic("bgMusic", "/music/bgMusic.mp3");
   k.loadMusic("battleMusic", "/music/battleMusic.mp3");
+  k.loadMusic("desertMusic", "/music/desertMusic.mp3")
 };
