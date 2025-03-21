@@ -10,7 +10,6 @@ export const loadAssets = (k: KAPLAYCtx) => {
       run: {from: 0, to: 3, loop: true}
     }
   });
-  k.loadSprite("magic", "/sprites/fireball.gif");
   k.loadSprite("arrow", "/sprites/arrow.png");
   k.loadSprite("background", "/sprites/dark_green_grass_background.png");
   k.loadSprite("customCursor", "/sprites/pointer_c.png");
@@ -22,6 +21,20 @@ export const loadAssets = (k: KAPLAYCtx) => {
       run: { from: 6, to: 11, loop: true },
     },
   });
+  k.loadSprite("pumpkinAttack", "/sprites/pumpkinAttack.png", {
+    sliceY: 1,
+    sliceX: 2,
+    anims: {
+      attack: {from: 0, to: 1, loop: true}
+    }
+  })
+  k.loadSprite("magic", "/sprites/magicBall.png", {
+    sliceY: 1,
+    sliceX: 30,
+    anims: {
+      fire: {from: 0, to: 29, loop: true},
+    }
+  })
 
   k.loadFont("press2p", "/fonts/PixelOperator8.ttf");
 

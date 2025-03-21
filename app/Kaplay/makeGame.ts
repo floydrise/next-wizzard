@@ -3,7 +3,6 @@ import { scoreAtom, store } from "@/lib/store";
 
 export const makeGame = (k: KAPLAYCtx) => {
   return k.scene("game", () => {
-
     const music = k.play("battleMusic", { volume: 0.5, loop: true });
     k.add([
       k.pos(0, 0),
@@ -32,12 +31,13 @@ export const makeGame = (k: KAPLAYCtx) => {
 
     const player = k.add([
       k.pos(k.center().x, 700 - 64),
-      k.sprite("advancedWizard", {anim: "idle"}),
+      k.sprite("advancedWizard", { anim: "idle" }),
       k.area(),
       k.body(),
       k.anchor("center"),
       k.scale(4),
       {
+        direction: k.vec2(0, 0),
         speed: 800,
       },
       "player",
@@ -46,7 +46,7 @@ export const makeGame = (k: KAPLAYCtx) => {
     const makeEnemy = () => {
       return k.add([
         k.pos(k.rand(k.vec2(k.width(), 0))),
-        k.sprite("pumpkinGuy", {anim: "run"}),
+        k.sprite("pumpkinGuy", { anim: "run" }),
         k.area(),
         k.anchor("center"),
         k.scale(3),
@@ -113,7 +113,8 @@ export const makeGame = (k: KAPLAYCtx) => {
       k.play("fire", { volume: 0.5 });
       k.add([
         k.pos(player.pos.x, player.pos.y - 64),
-        k.sprite("magic"),
+        k.sprite("magic", {anim: "fire"}),
+        k.scale(2),
         k.area(),
         k.anchor("center"),
         k.offscreen({ destroy: true }),
@@ -142,10 +143,10 @@ export const makeGame = (k: KAPLAYCtx) => {
       }
       if (enemy.fireTimer >= enemy.fireTime) {
         k.play("wind", { volume: 0.3 });
-        const arrow = k.add([
+        k.add([
           k.pos(enemy.pos.x, enemy.pos.y + 32),
-          k.sprite("arrow"),
-          k.rotate(),
+          k.sprite("pumpkinAttack", {anim: "attack"}),
+          k.rotate(180),
           k.area(),
           k.anchor("center"),
           k.offscreen({ destroy: true }),
@@ -155,8 +156,52 @@ export const makeGame = (k: KAPLAYCtx) => {
           },
           "arrow",
         ]);
-        arrow.angle = 180;
         enemy.fireTimer = 0;
+      }
+    });
+
+    player.onUpdate(() => {
+      player.direction.x = 0;
+      player.direction.y = 0;
+
+      if (k.isKeyDown("left")) player.direction.x = -1;
+      if (k.isKeyDown("right")) player.direction.x = 1;
+      if (k.isKeyDown("up")) player.direction.y = -1;
+      if (k.isKeyDown("down")) player.direction.y = 1;
+
+      if (
+        player.direction.eq(k.vec2(-1, 0)) &&
+        player.getCurAnim()?.name !== "run"
+      ) {
+        player.play("run");
+      }
+
+      if (
+        player.direction.eq(k.vec2(1, 0)) &&
+        player.getCurAnim()?.name !== "run"
+      ) {
+        player.play("run");
+      }
+
+      if (
+        player.direction.eq(k.vec2(0, -1)) &&
+        player.getCurAnim()?.name !== "run"
+      ) {
+        player.play("run");
+      }
+
+      if (
+        player.direction.eq(k.vec2(0, 1)) &&
+        player.getCurAnim()?.name !== "run"
+      ) {
+        player.play("run");
+      }
+
+      if (
+        player.direction.eq(k.vec2(0, 0)) &&
+        player.getCurAnim()?.name !== "idle"
+      ) {
+        player.play("idle");
       }
     });
 
