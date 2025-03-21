@@ -1,40 +1,37 @@
 import { KAPLAYCtx } from "kaplay";
 import { scoreAtom, store } from "@/lib/store";
 
-export const makeGame = (k: KAPLAYCtx) => {
-  return k.scene("game", () => {
-    const music = k.play("battleMusic", { volume: 0.5, loop: true });
+export default function makeLevel2(k: KAPLAYCtx) {
+  return k.scene("level2", () => {
+    const music = k.play("desertMusic", { volume: 0.3, loop: true });
+
     k.add([
       k.pos(0, 0),
-      k.sprite("background", { width: 1280, height: 720 }),
-      k.scale(4),
+      k.sprite("sandBackground", { width: 1280, height: 720 }),
+      k.scale(2),
     ]);
 
     k.add([
       k.pos(0, 0),
       k.rect(1280, 64),
       k.outline(4),
-      k.color(k.Color.fromHex("#071821")),
+      k.color(k.Color.fromHex("#FFA952")),
       k.z(10),
     ]);
 
     const score = k.add([
-      k.pos(20, 20),
+      k.text("Score: 0", { size: 32, font: "press2p" }),
       k.color(k.Color.fromHex("#e0f8fc")),
-      k.text("Score: 0", {
-        size: 32,
-        font: "press2p",
-      }),
+      k.pos(20, 20),
       k.z(10),
-      "score",
       { value: 0 },
     ]);
 
     const player = k.add([
-      k.pos(k.center().x, 700 - 64),
       k.sprite("advancedWizard", { anim: "idle" }),
-      k.area(),
+      k.pos(k.center().x, 700 - 64),
       k.body(),
+      k.area(),
       k.anchor("center"),
       k.scale(4),
       {
@@ -47,51 +44,43 @@ export const makeGame = (k: KAPLAYCtx) => {
     const makeEnemy = () => {
       return k.add([
         k.pos(k.rand(k.vec2(k.width(), 0))),
-        k.sprite("pumpkinGuy", { anim: "run" }),
-        k.area(),
+        k.sprite("skeleton", { anim: "run" }),
         k.anchor("center"),
-        k.scale(3),
+        k.area(),
+        k.scale(4),
         {
           speed: 100,
           fireTimer: 0,
-          fireTime: k.rand(150, 200),
+          fireTime: k.rand(100, 200),
         },
         "enemy",
       ]);
     };
 
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 6; i++) {
       makeEnemy();
     }
 
     k.onKeyDown("left", () => {
       player.flipX = true;
       player.move(-player.speed, 0);
-      if (player.pos.x <= 32) {
-        player.pos.x = 32;
-      }
+      if (player.pos.x <= 32) player.pos.x = 32;
     });
 
     k.onKeyDown("right", () => {
       player.flipX = false;
       player.move(player.speed, 0);
-      if (player.pos.x >= 1280 - 32) {
-        player.pos.x = 1280 - 32;
-      }
+      if (player.pos.x >= 1280 - 32) player.pos.x = 1280 - 32;
     });
 
     k.onKeyDown("up", () => {
       player.move(0, -player.speed);
-      if (player.pos.y <= 96) {
-        player.pos.y = 96;
-      }
+      if (player.pos.y <= 96) player.pos.y = 96;
     });
 
     k.onKeyDown("down", () => {
       player.move(0, player.speed);
-      if (player.pos.y >= 720 - 64) {
-        player.pos.y = 720 - 64;
-      }
+      if (player.pos.y >= 720 - 64) player.pos.y = 720 - 64;
     });
 
     k.onKeyPress("left", () => {
@@ -111,16 +100,16 @@ export const makeGame = (k: KAPLAYCtx) => {
     });
 
     k.onKeyPress("space", () => {
-      k.play("arcaneAttack", { volume: 1 });
+      k.play("arcaneAttack");
       k.add([
         k.pos(player.pos.x, player.pos.y - 64),
         k.sprite("magic", { anim: "fire" }),
-        k.scale(2),
         k.area(),
         k.anchor("center"),
+        k.scale(2),
         k.offscreen({ destroy: true }),
         {
-          speed: 600,
+          speed: 800,
         },
         "fire",
       ]);
@@ -134,26 +123,20 @@ export const makeGame = (k: KAPLAYCtx) => {
       arrow.move(0, arrow.speed);
     });
 
-    score.onUpdate(() => {
-      if (score.value === 20) {
-        k.go("level2");
-        music.stop();
-      }
-    });
-
     k.onUpdate("enemy", (enemy) => {
       enemy.move(0, enemy.speed);
       enemy.fireTimer++;
 
-      if (enemy.pos.y >= 784) {
+      if (enemy.pos.y >= 720) {
         k.destroy(enemy);
         makeEnemy();
       }
+
       if (enemy.fireTimer >= enemy.fireTime) {
-        k.play("wobbleAttack", { volume: 0.3 });
+        k.play("wind", { volume: 0.5 });
         k.add([
           k.pos(enemy.pos.x, enemy.pos.y + 32),
-          k.sprite("pumpkinAttack", { anim: "attack" }),
+          k.sprite("arrow"),
           k.rotate(180),
           k.area(),
           k.anchor("center"),
@@ -162,6 +145,7 @@ export const makeGame = (k: KAPLAYCtx) => {
           { speed: 500 },
           "arrow",
         ]);
+
         enemy.fireTimer = 0;
       }
     });
@@ -213,35 +197,34 @@ export const makeGame = (k: KAPLAYCtx) => {
 
     k.onCollide("fire", "enemy", (fire, enemy) => {
       k.play("explosion", { volume: 0.6 });
-      score.value++;
-      store.set(scoreAtom, score.value);
-      score.text = `Score: ${score.value}`;
       k.destroy(enemy);
       k.destroy(fire);
+      score.value++;
+      score.text = `Score: ${score.value}`;
       makeEnemy();
     });
 
     k.onCollide("player", "enemy", (player, enemy) => {
+      k.play("death");
       k.destroy(player);
       k.destroy(enemy);
-      k.play("death");
       store.set(scoreAtom, score.value);
-      k.go("gameOver");
       music.stop();
+      k.go("gameOver");
     });
 
     k.onCollide("player", "arrow", (player, arrow) => {
+      k.play("death");
       k.destroy(player);
       k.destroy(arrow);
-      k.play("death");
       store.set(scoreAtom, score.value);
-      k.go("gameOver");
       music.stop();
+      k.go("gameOver");
     });
 
     k.onKeyPress("escape", () => {
-      k.go("menu");
       music.stop();
+      k.go("menu");
     });
   });
-};
+}
