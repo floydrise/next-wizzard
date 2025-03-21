@@ -1,7 +1,6 @@
 import { KAPLAYCtx } from "kaplay";
 
 export const loadAssets = (k: KAPLAYCtx) => {
-  k.loadSprite("wizard", "/sprites/wizzard_m_idle_anim_f0.png");
   k.loadSprite("skeleton", "/sprites/skelet_idle_anim_f0.png");
   k.loadSprite("pumpkinGuy", "/sprites/pumpkinGuyAnimation.png", {
     sliceY: 1,
@@ -38,11 +37,11 @@ export const loadAssets = (k: KAPLAYCtx) => {
 
   k.loadFont("press2p", "/fonts/PixelOperator8.ttf");
 
-  k.loadSound("fire", "/sounds/fire.wav");
-  k.loadSound("wind", "/sounds/wind.wav");
-  k.loadSound("explosion", "/sounds/explosion.wav");
-  k.loadSound("walk", "/sounds/walk.wav");
+  k.loadSound("fire", "/sounds/fire.mp3");
+  k.loadSound("wind", "/sounds/wind.mp3");
+  k.loadSound("explosion", "/sounds/explosion.mp3");
+  k.loadSound("walk", "/sounds/walk.mp3");
 
   k.loadMusic("bgMusic", "/music/bgMusic.mp3");
-  k.loadMusic("battleMusic", "/music/battleMusic.wav");
+  k.loadMusic("battleMusic", "/music/battleMusic.mp3");
 };
