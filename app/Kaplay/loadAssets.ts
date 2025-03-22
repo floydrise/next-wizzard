@@ -41,6 +41,13 @@ export const loadAssets = (k: KAPLAYCtx) => {
       fire: { from: 0, to: 29, loop: true },
     },
   });
+  k.loadSprite("bonfire", "/sprites/bonfire.png", {
+    sliceY: 1,
+    sliceX: 4,
+    anims: {
+      running: { from: 0, to: 3, loop: true },
+    },
+  });
 
   k.loadFont("press2p", "/fonts/PixelOperator8.ttf");
 
@@ -49,10 +56,11 @@ export const loadAssets = (k: KAPLAYCtx) => {
   k.loadSound("explosion", "/sounds/explosion.mp3");
   k.loadSound("walk", "/sounds/walk.mp3");
   k.loadSound("arcaneAttack", "/sounds/arcaneAttack.wav");
-  k.loadSound("wobbleAttack", "/sounds/wobbleAttack.wav")
-  k.loadSound("death", "/sounds/death.mp3")
+  k.loadSound("wobbleAttack", "/sounds/wobbleAttack.wav");
+  k.loadSound("death", "/sounds/death.mp3");
 
   k.loadMusic("bgMusic", "/music/bgMusic.mp3");
   k.loadMusic("battleMusic", "/music/battleMusic.mp3");
-  k.loadMusic("desertMusic", "/music/desertMusic.mp3")
+  k.loadMusic("desertMusic", "/music/desertMusic.mp3");
+  k.loadMusic("bonfire", "/music/bonfire.mp3");
 };
