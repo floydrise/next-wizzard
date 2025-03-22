@@ -1,9 +1,14 @@
 import { KAPLAYCtx } from "kaplay";
 import { scoreAtom, store } from "@/lib/store";
-import { playerMovementAnimation, playerMovementLogic } from "@/lib/gameLogic";
+import {
+  initialiseAttack,
+  playerMovementAnimation,
+  playerMovementLogic,
+} from "@/lib/gameLogic";
 
 export default function makeLevel2(k: KAPLAYCtx) {
   return k.scene("level2", () => {
+    let hasCollided = false;
     const music = k.play("desertMusic", { volume: 0.3, loop: true });
 
     k.add([
@@ -50,7 +55,7 @@ export default function makeLevel2(k: KAPLAYCtx) {
         k.area(),
         k.scale(4),
         {
-          speed: 100,
+          speed: 150,
           fireTimer: 0,
           fireTime: k.rand(100, 200),
         },
@@ -65,19 +70,42 @@ export default function makeLevel2(k: KAPLAYCtx) {
     playerMovementLogic(k, player);
 
     k.onKeyPress("space", () => {
-      k.play("arcaneAttack");
+      if (hasCollided) {
+        k.play("fire", { volume: 1 });
+        k.add([
+          k.pos(player.pos.x, player.pos.y - 64),
+          k.sprite("fireball", { anim: "attack" }),
+          k.area(),
+          k.rotate(-90),
+          k.scale(2),
+          k.anchor("center"),
+          k.offscreen({ destroy: true }),
+          {
+            speed: 800,
+          },
+          "fire",
+        ]);
+      } else {
+        initialiseAttack(k, player);
+      }
+    });
+
+    k.wait(5, () => {
       k.add([
-        k.pos(player.pos.x, player.pos.y - 64),
-        k.sprite("magic", { anim: "fire" }),
-        k.area(),
+        k.sprite("fireball", { anim: "attack" }),
+        k.pos(k.rand(k.vec2(k.width(), 0))),
         k.anchor("center"),
+        k.area(),
+        k.rotate(90),
         k.scale(2),
         k.offscreen({ destroy: true }),
-        {
-          speed: 800,
-        },
-        "fire",
+        { speed: 50 },
+        "bonus",
       ]);
+    });
+
+    k.onUpdate("bonus", (bonus) => {
+      bonus.move(0, bonus.speed);
     });
 
     k.onUpdate("fire", (fire) => {
@@ -116,6 +144,21 @@ export default function makeLevel2(k: KAPLAYCtx) {
     });
 
     playerMovementAnimation(k, player);
+
+    k.onCollide("player", "bonus", (player, bonus) => {
+      bonus.destroy();
+      hasCollided = true;
+    });
+
+    k.onCollide("fire", "arrow", (fire, arrow) => {
+      if (hasCollided) {
+        k.destroy(fire);
+        k.destroy(arrow);
+        score.value++;
+        score.text = `Score: ${score.value}`;
+        store.set(scoreAtom, score.value);
+      }
+    });
 
     k.onCollide("fire", "enemy", (fire, enemy) => {
       k.play("explosion", { volume: 0.6 });

@@ -48,6 +48,13 @@ export const loadAssets = (k: KAPLAYCtx) => {
       running: { from: 0, to: 3, loop: true },
     },
   });
+  k.loadSprite("fireball", "/sprites/fireball.png", {
+    sliceY: 1,
+    sliceX: 2,
+    anims: {
+      attack: { from: 0, to: 1, loop: true },
+    },
+  });
 
   k.loadFont("press2p", "/fonts/PixelOperator8.ttf");
 

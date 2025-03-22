@@ -1,6 +1,6 @@
 import { KAPLAYCtx } from "kaplay";
-import {levelAtom, scoreAtom, store} from "@/lib/store";
-import { playerMovementAnimation, playerMovementLogic } from "@/lib/gameLogic";
+import { levelAtom, scoreAtom, store } from "@/lib/store";
+import {initialiseAttack, playerMovementAnimation, playerMovementLogic} from "@/lib/gameLogic";
 
 export const makeGame = (k: KAPLAYCtx) => {
   return k.scene("game", () => {
@@ -68,19 +68,7 @@ export const makeGame = (k: KAPLAYCtx) => {
     playerMovementLogic(k, player);
 
     k.onKeyPress("space", () => {
-      k.play("arcaneAttack", { volume: 1 });
-      k.add([
-        k.pos(player.pos.x, player.pos.y - 64),
-        k.sprite("magic", { anim: "fire" }),
-        k.scale(2),
-        k.area(),
-        k.anchor("center"),
-        k.offscreen({ destroy: true }),
-        {
-          speed: 600,
-        },
-        "fire",
-      ]);
+        initialiseAttack(k, player)
     });
 
     k.onUpdate("fire", (fire) => {

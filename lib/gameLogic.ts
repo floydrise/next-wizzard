@@ -124,3 +124,33 @@ export const playerMovementLogic = (
     k.play("walk", { volume: 0.5 });
   });
 };
+
+export const initialiseAttack = (
+  k: KAPLAYCtx,
+  player: GameObj<
+    | PosComp
+    | SpriteComp
+    | ScaleComp
+    | BodyComp
+    | AreaComp
+    | AnchorComp
+    | {
+        direction: Vec2;
+        speed: number;
+      }
+  >,
+) => {
+  k.play("arcaneAttack", { volume: 1 });
+  k.add([
+    k.pos(player.pos.x, player.pos.y - 64),
+    k.sprite("magic", { anim: "fire" }),
+    k.scale(2),
+    k.area(),
+    k.anchor("center"),
+    k.offscreen({ destroy: true }),
+    {
+      speed: 600,
+    },
+    "fire",
+  ]);
+};
