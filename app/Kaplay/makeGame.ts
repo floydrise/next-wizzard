@@ -1,5 +1,5 @@
 import { KAPLAYCtx } from "kaplay";
-import { scoreAtom, store } from "@/lib/store";
+import {levelAtom, scoreAtom, store} from "@/lib/store";
 import { playerMovementAnimation, playerMovementLogic } from "@/lib/gameLogic";
 
 export const makeGame = (k: KAPLAYCtx) => {
@@ -93,6 +93,7 @@ export const makeGame = (k: KAPLAYCtx) => {
 
     score.onUpdate(() => {
       if (score.value === 20) {
+        store.set(levelAtom, "lvl2");
         k.go("wonScene");
         music.stop();
       }

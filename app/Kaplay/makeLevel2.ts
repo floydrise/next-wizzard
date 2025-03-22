@@ -1,6 +1,6 @@
 import { KAPLAYCtx } from "kaplay";
 import { scoreAtom, store } from "@/lib/store";
-import {playerMovementAnimation, playerMovementLogic} from "@/lib/gameLogic";
+import { playerMovementAnimation, playerMovementLogic } from "@/lib/gameLogic";
 
 export default function makeLevel2(k: KAPLAYCtx) {
   return k.scene("level2", () => {
@@ -62,7 +62,7 @@ export default function makeLevel2(k: KAPLAYCtx) {
       makeEnemy();
     }
 
-    playerMovementLogic(k, player)
+    playerMovementLogic(k, player);
 
     k.onKeyPress("space", () => {
       k.play("arcaneAttack");

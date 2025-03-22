@@ -1,5 +1,5 @@
 import { KAPLAYCtx } from "kaplay";
-import { scoreAtom, store } from "@/lib/store";
+import { levelAtom, scoreAtom, store } from "@/lib/store";
 
 export const makeGameOver = (k: KAPLAYCtx) => {
   return k.scene("gameOver", () => {
@@ -35,12 +35,18 @@ export const makeGameOver = (k: KAPLAYCtx) => {
     ]);
 
     k.onKeyPress("enter", () => {
+      const lvl = store.get(levelAtom);
       music.stop();
-      k.go("game");
+      if (lvl === "lvl1") {
+        k.go("game");
+      } else if (lvl === "lvl2") {
+        k.go("level2");
+      }
     });
 
     k.onKeyPress("escape", () => {
       music.stop();
+      store.set(levelAtom, "lvl1");
       k.go("menu");
     });
   });
