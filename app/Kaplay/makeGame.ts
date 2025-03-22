@@ -1,5 +1,6 @@
 import { KAPLAYCtx } from "kaplay";
 import { scoreAtom, store } from "@/lib/store";
+import { playerMovementAnimation, playerMovementLogic } from "@/lib/gameLogic";
 
 export const makeGame = (k: KAPLAYCtx) => {
   return k.scene("game", () => {
@@ -21,7 +22,7 @@ export const makeGame = (k: KAPLAYCtx) => {
     const score = k.add([
       k.pos(20, 20),
       k.color(k.Color.fromHex("#e0f8fc")),
-      k.text("Score: 0", {
+      k.text("Score: 0 / 20", {
         size: 32,
         font: "press2p",
       }),
@@ -64,51 +65,7 @@ export const makeGame = (k: KAPLAYCtx) => {
       makeEnemy();
     }
 
-    k.onKeyDown("left", () => {
-      player.flipX = true;
-      player.move(-player.speed, 0);
-      if (player.pos.x <= 32) {
-        player.pos.x = 32;
-      }
-    });
-
-    k.onKeyDown("right", () => {
-      player.flipX = false;
-      player.move(player.speed, 0);
-      if (player.pos.x >= 1280 - 32) {
-        player.pos.x = 1280 - 32;
-      }
-    });
-
-    k.onKeyDown("up", () => {
-      player.move(0, -player.speed);
-      if (player.pos.y <= 96) {
-        player.pos.y = 96;
-      }
-    });
-
-    k.onKeyDown("down", () => {
-      player.move(0, player.speed);
-      if (player.pos.y >= 720 - 64) {
-        player.pos.y = 720 - 64;
-      }
-    });
-
-    k.onKeyPress("left", () => {
-      k.play("walk", { volume: 0.5 });
-    });
-
-    k.onKeyPress("right", () => {
-      k.play("walk", { volume: 0.5 });
-    });
-
-    k.onKeyPress("up", () => {
-      k.play("walk", { volume: 0.5 });
-    });
-
-    k.onKeyPress("down", () => {
-      k.play("walk", { volume: 0.5 });
-    });
+    playerMovementLogic(k, player);
 
     k.onKeyPress("space", () => {
       k.play("arcaneAttack", { volume: 1 });
@@ -136,7 +93,7 @@ export const makeGame = (k: KAPLAYCtx) => {
 
     score.onUpdate(() => {
       if (score.value === 20) {
-        k.go("level2");
+        k.go("wonScene");
         music.stop();
       }
     });
@@ -166,56 +123,13 @@ export const makeGame = (k: KAPLAYCtx) => {
       }
     });
 
-    player.onUpdate(() => {
-      player.direction.x = 0;
-      player.direction.y = 0;
-
-      if (k.isKeyDown("left")) player.direction.x = -1;
-      if (k.isKeyDown("right")) player.direction.x = 1;
-      if (k.isKeyDown("up")) player.direction.y = -1;
-      if (k.isKeyDown("down")) player.direction.y = 1;
-
-      if (
-        player.direction.eq(k.vec2(-1, 0)) &&
-        player.getCurAnim()?.name !== "run"
-      ) {
-        player.play("run");
-      }
-
-      if (
-        player.direction.eq(k.vec2(1, 0)) &&
-        player.getCurAnim()?.name !== "run"
-      ) {
-        player.play("run");
-      }
-
-      if (
-        player.direction.eq(k.vec2(0, -1)) &&
-        player.getCurAnim()?.name !== "run"
-      ) {
-        player.play("run");
-      }
-
-      if (
-        player.direction.eq(k.vec2(0, 1)) &&
-        player.getCurAnim()?.name !== "run"
-      ) {
-        player.play("run");
-      }
-
-      if (
-        player.direction.eq(k.vec2(0, 0)) &&
-        player.getCurAnim()?.name !== "idle"
-      ) {
-        player.play("idle");
-      }
-    });
+    playerMovementAnimation(k, player);
 
     k.onCollide("fire", "enemy", (fire, enemy) => {
       k.play("explosion", { volume: 0.6 });
       score.value++;
       store.set(scoreAtom, score.value);
-      score.text = `Score: ${score.value}`;
+      score.text = `Score: ${score.value} / 20`;
       k.destroy(enemy);
       k.destroy(fire);
       makeEnemy();
