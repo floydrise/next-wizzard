@@ -1,4 +1,5 @@
 import { KAPLAYCtx } from "kaplay";
+import {levelAtom, store} from "@/lib/store";
 
 export default function makeWonScene(k: KAPLAYCtx) {
   return k.scene("wonScene", () => {
@@ -23,9 +24,14 @@ export default function makeWonScene(k: KAPLAYCtx) {
       k.anchor("center"),
     ]);
     k.onKeyPress("enter", () => {
+      const lvl = store.get(levelAtom);
       music.stop();
       k.destroyAll("bonfire");
-      k.go("level2");
+      if (lvl === "lvl2") {
+        k.go("level2");
+      } else if (lvl === "lvl3") {
+        k.go("bossLevel");
+      }
     });
     k.onKeyPress("escape", () => {
       music.stop();

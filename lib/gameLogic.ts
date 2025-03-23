@@ -154,3 +154,34 @@ export const initialiseAttack = (
     "fire",
   ]);
 };
+
+export const initialiseFireAttack = (
+    k: KAPLAYCtx,
+    player: GameObj<
+        | PosComp
+        | SpriteComp
+        | ScaleComp
+        | BodyComp
+        | AreaComp
+        | AnchorComp
+        | {
+      direction: Vec2;
+      speed: number;
+    }
+    >,
+) => {
+  k.play("fire", { volume: 1 });
+  k.add([
+    k.pos(player.pos.x, player.pos.y - 64),
+    k.sprite("fireball", { anim: "attack" }),
+    k.area(),
+    k.rotate(-90),
+    k.scale(2),
+    k.anchor("center"),
+    k.offscreen({ destroy: true }),
+    {
+      speed: 800,
+    },
+    "fire",
+  ]);
+};

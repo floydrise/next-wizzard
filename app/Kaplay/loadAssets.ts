@@ -55,6 +55,35 @@ export const loadAssets = (k: KAPLAYCtx) => {
       attack: { from: 0, to: 1, loop: true },
     },
   });
+  k.loadSprite("boss", "/sprites/boss.png", {
+    sliceY: 1,
+    sliceX: 4,
+    anims: {
+      idle: { from: 0, to: 3, loop: true },
+    },
+  });
+  k.loadSprite("bossAttack", "/sprites/bossAttack.png", {
+    sliceY: 4,
+    sliceX: 5,
+    anims: {
+      attack: { from: 0, to: 19, loop: true },
+    },
+  });
+  k.loadSprite("bossBackground", "/sprites/bossBackground.png");
+  k.loadSprite("whirlwind", "/sprites/whirlwind.png", {
+    sliceY: 1,
+    sliceX: 4,
+    anims: {
+      attack: { from: 0, to: 3, loop: true },
+    },
+  });
+  k.loadSprite("boss2", "/sprites/bossSprite2.png", {
+    sliceY: 3,
+    sliceX: 3,
+    anims: {
+      bite: {from: 0, to: 7, loop: true}
+    }
+  })
 
   k.loadFont("press2p", "/fonts/PixelOperator8.ttf");
 
@@ -70,4 +99,5 @@ export const loadAssets = (k: KAPLAYCtx) => {
   k.loadMusic("battleMusic", "/music/battleMusic.mp3");
   k.loadMusic("desertMusic", "/music/desertMusic.mp3");
   k.loadMusic("bonfire", "/music/bonfire.mp3");
+  k.loadMusic("bossMusic", "/music/bossMusic.mp3");
 };

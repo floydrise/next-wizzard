@@ -77,6 +77,8 @@ export const makeMenu = (k: KAPLAYCtx, user: string) => {
         k.go("game");
       } else if (store.get(levelAtom) === "lvl2") {
         k.go("level2");
+      } else if (store.get(levelAtom) === "lvl3") {
+        k.go("bossLevel");
       }
     });
   });
