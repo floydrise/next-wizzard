@@ -1,7 +1,8 @@
 import { KAPLAYCtx } from "kaplay";
-import { scoreAtom, store } from "@/lib/store";
+import {levelAtom, scoreAtom, store} from "@/lib/store";
 import {
   initialiseAttack,
+  initialiseFireAttack,
   playerMovementAnimation,
   playerMovementLogic,
 } from "@/lib/gameLogic";
@@ -26,12 +27,20 @@ export default function makeLevel2(k: KAPLAYCtx) {
     ]);
 
     const score = k.add([
-      k.text("Score: 0", { size: 32, font: "press2p" }),
+      k.text("Score: 0 / 40", { size: 32, font: "press2p" }),
       k.color(k.Color.fromHex("#e0f8fc")),
       k.pos(20, 20),
       k.z(10),
       { value: 0 },
     ]);
+
+    score.onUpdate(() => {
+      if (score.value === 40) {
+        store.set(levelAtom, "lvl3");
+        k.go("wonScene");
+        music.stop();
+      }
+    });
 
     const player = k.add([
       k.sprite("advancedWizard", { anim: "idle" }),
@@ -71,20 +80,7 @@ export default function makeLevel2(k: KAPLAYCtx) {
 
     k.onKeyPress("space", () => {
       if (hasCollided) {
-        k.play("fire", { volume: 1 });
-        k.add([
-          k.pos(player.pos.x, player.pos.y - 64),
-          k.sprite("fireball", { anim: "attack" }),
-          k.area(),
-          k.rotate(-90),
-          k.scale(2),
-          k.anchor("center"),
-          k.offscreen({ destroy: true }),
-          {
-            speed: 800,
-          },
-          "fire",
-        ]);
+        initialiseFireAttack(k, player);
       } else {
         initialiseAttack(k, player);
       }
@@ -155,7 +151,7 @@ export default function makeLevel2(k: KAPLAYCtx) {
         k.destroy(fire);
         k.destroy(arrow);
         score.value++;
-        score.text = `Score: ${score.value}`;
+        score.text = `Score: ${score.value} / 40`;
         store.set(scoreAtom, score.value);
       }
     });
@@ -165,7 +161,7 @@ export default function makeLevel2(k: KAPLAYCtx) {
       k.destroy(enemy);
       k.destroy(fire);
       score.value++;
-      score.text = `Score: ${score.value}`;
+      score.text = `Score: ${score.value} / 40`;
       makeEnemy();
     });
 

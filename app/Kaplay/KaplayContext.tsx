@@ -10,6 +10,7 @@ import { useAtomValue } from "jotai";
 import { scoreAtom } from "@/lib/store";
 import makeLevel2 from "@/app/Kaplay/makeLevel2";
 import makeWonScene from "@/app/Kaplay/makeWonScene";
+import {makeBossLevel} from "@/app/Kaplay/makeBossLevel";
 
 export const KaplayContext = ({ user }: { user: string }) => {
   const score = useAtomValue(scoreAtom);
@@ -31,6 +32,7 @@ export const KaplayContext = ({ user }: { user: string }) => {
     makeGame(k);
     makeWonScene(k);
     makeLevel2(k);
+    makeBossLevel(k);
     makeGameOver(k);
     k.go("menu");
   }, [user]);

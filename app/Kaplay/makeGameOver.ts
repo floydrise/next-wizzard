@@ -41,6 +41,8 @@ export const makeGameOver = (k: KAPLAYCtx) => {
         k.go("game");
       } else if (lvl === "lvl2") {
         k.go("level2");
+      } else if (lvl === "lvl3") {
+        k.go("bossLevel");
       }
     });
 
