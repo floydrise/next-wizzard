@@ -1,10 +1,10 @@
 import { KAPLAYCtx } from "kaplay";
-import {levelAtom, scoreAtom, store} from "@/lib/store";
+import { levelAtom, scoreAtom, store } from "@/lib/store";
 import {
   initialiseAttack,
-  initialiseFireAttack,
   playerMovementAnimation,
   playerMovementLogic,
+  initialiseFireAttack,
 } from "@/lib/gameLogic";
 
 export default function makeLevel2(k: KAPLAYCtx) {

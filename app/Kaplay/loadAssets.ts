@@ -81,9 +81,23 @@ export const loadAssets = (k: KAPLAYCtx) => {
     sliceY: 3,
     sliceX: 3,
     anims: {
-      bite: {from: 0, to: 7, loop: true}
-    }
-  })
+      bite: { from: 0, to: 7, loop: true },
+    },
+  });
+  k.loadSprite("orcShaman", "/sprites/orcShaman.png", {
+    sliceY: 1,
+    sliceX: 4,
+    anims: {
+      run: { from: 0, to: 3, loop: true },
+    },
+  });
+  k.loadSprite("greenBall", "/sprites/greenBall.png", {
+    sliceY: 1,
+    sliceX: 2,
+    anims: {
+      attack: { from: 0, to: 1, loop: true },
+    },
+  });
 
   k.loadFont("press2p", "/fonts/PixelOperator8.ttf");
 

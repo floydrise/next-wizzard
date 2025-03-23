@@ -4,6 +4,7 @@ import {
   playerMovementAnimation,
   playerMovementLogic,
 } from "@/lib/gameLogic";
+import {levelAtom, store} from "@/lib/store";
 
 export const makeBossLevel = (k: KAPLAYCtx) => {
   return k.scene("bossLevel", () => {
@@ -21,13 +22,13 @@ export const makeBossLevel = (k: KAPLAYCtx) => {
     const bossLife = k.add([
       k.pos(20, 20),
       k.color(k.Color.fromHex("#e0f8fc")),
-      k.text("NecroEye: 150 / 150", {
+      k.text("NecroEye: 300 / 300", {
         size: 32,
         font: "press2p",
       }),
       k.z(10),
       "bossLife",
-      { value: 150 },
+      { value: 300 },
     ]);
     const player = k.add([
       k.pos(k.center().x, 700 - 64),
@@ -79,9 +80,61 @@ export const makeBossLevel = (k: KAPLAYCtx) => {
 
     bossLife.onUpdate(() => {
       if (bossLife.value === 0) {
-
+        store.set(levelAtom, "lvl1");
         k.go("wonScene");
         music.stop();
+      }
+    });
+
+    const makeEnemy = () => {
+      return k.add([
+        k.pos(k.rand(k.vec2(k.width(), 0))),
+        k.sprite("orcShaman", { anim: "run" }),
+        k.anchor("center"),
+        k.area(),
+        k.scale(4),
+        {
+          speed: 150,
+          fireTimer: 0,
+          fireTime: k.rand(100, 200),
+        },
+        "orc",
+      ]);
+    };
+
+    k.wait(2, () => {
+      k.loop(1, () => {
+        makeEnemy();
+      });
+    });
+
+    k.onUpdate("greenBall", (greenBall) => {
+      greenBall.move(0, greenBall.speed);
+    });
+
+    k.onUpdate("orc", (enemy) => {
+      enemy.move(0, enemy.speed);
+      enemy.fireTimer++;
+
+      if (enemy.pos.y >= 720) {
+        k.destroy(enemy);
+        makeEnemy();
+      }
+
+      if (enemy.fireTimer >= enemy.fireTime) {
+        k.play("wobbleAttack", { volume: 0.5 });
+        k.add([
+          k.pos(enemy.pos.x, enemy.pos.y + 32),
+          k.sprite("greenBall", { anim: "attack" }),
+          k.area(),
+          k.anchor("center"),
+          k.offscreen({ destroy: true }),
+          k.scale(3),
+          { speed: 500 },
+          "greenBall",
+        ]);
+
+        enemy.fireTimer = 0;
       }
     });
 
@@ -105,7 +158,7 @@ export const makeBossLevel = (k: KAPLAYCtx) => {
           k.offscreen({ destroy: true }),
           k.scale(0.3),
           {
-            speed: 400,
+            speed: 600,
           },
           "bossAttack",
         ]);
@@ -114,6 +167,26 @@ export const makeBossLevel = (k: KAPLAYCtx) => {
     });
 
     playerMovementAnimation(k, player);
+
+    k.onCollide("fire", "greenBall", (fire, greenBall) => {
+      fire.destroy();
+      greenBall.destroy();
+    });
+
+    k.onCollide("fire", "orc", (fire, orc) => {
+      k.play("explosion", { volume: 0.6 });
+      fire.destroy();
+      orc.destroy();
+    });
+
+    k.onCollide("player", "orc", (player, orc) => {
+      k.destroy(player);
+      k.destroy(orc);
+      k.play("death");
+      k.go("gameOver");
+      music.stop();
+    });
+
     k.onCollide("fire", "bossAttack", (fire, bossAttack) => {
       fire.destroy();
       bossAttack.destroy();
@@ -126,7 +199,7 @@ export const makeBossLevel = (k: KAPLAYCtx) => {
       }
       k.destroy(fire);
       bossLife.value -= 5;
-      bossLife.text = `NecroEye: ${bossLife.value} / 150`;
+      bossLife.text = `NecroEye: ${bossLife.value} / 300`;
     });
 
     k.onCollide("player", "enemy", (player, enemy) => {
@@ -144,6 +217,7 @@ export const makeBossLevel = (k: KAPLAYCtx) => {
       k.go("gameOver");
       music.stop();
     });
+
     k.onKeyPress("escape", () => {
       k.go("menu");
       music.stop();

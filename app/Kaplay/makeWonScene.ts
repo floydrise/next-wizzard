@@ -3,6 +3,7 @@ import {levelAtom, store} from "@/lib/store";
 
 export default function makeWonScene(k: KAPLAYCtx) {
   return k.scene("wonScene", () => {
+    const lvl = store.get(levelAtom);
     const music = k.play("bonfire", { loop: true, volume: 0.5 });
     k.add([
       k.sprite("bonfire", { anim: "running" }),
@@ -11,7 +12,7 @@ export default function makeWonScene(k: KAPLAYCtx) {
       k.scale(6),
     ]);
     k.add([
-      k.text("You won this round!", { font: "press2p", size: 32 }),
+      k.text(lvl === "lvl3" ? "Beware, NecroEye is coming!" : "You won this round!", { font: "press2p", size: 32 }),
       k.pos(k.center()),
       k.anchor("center"),
     ]);
@@ -24,13 +25,14 @@ export default function makeWonScene(k: KAPLAYCtx) {
       k.anchor("center"),
     ]);
     k.onKeyPress("enter", () => {
-      const lvl = store.get(levelAtom);
       music.stop();
       k.destroyAll("bonfire");
       if (lvl === "lvl2") {
         k.go("level2");
       } else if (lvl === "lvl3") {
         k.go("bossLevel");
+      } else if (lvl === "lvl1") {
+        k.go("menu")
       }
     });
     k.onKeyPress("escape", () => {
