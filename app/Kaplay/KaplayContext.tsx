@@ -11,9 +11,8 @@ import { scoreAtom } from "@/lib/store";
 import makeLevel2 from "@/app/Kaplay/makeLevel2";
 import makeWonScene from "@/app/Kaplay/makeWonScene";
 import {makeBossLevel} from "@/app/Kaplay/makeBossLevel";
-
+import makeCompete from "@/app/Kaplay/makeCompete";
 export const KaplayContext = ({ user }: { user: string }) => {
-  const score = useAtomValue(scoreAtom);
   useEffect(() => {
     const k = kaplay({
       letterbox: true,
@@ -33,9 +32,9 @@ export const KaplayContext = ({ user }: { user: string }) => {
     makeWonScene(k);
     makeLevel2(k);
     makeBossLevel(k);
+    makeCompete(k);
     makeGameOver(k);
     k.go("menu");
   }, [user]);
-  useEffect(() => {}, [score]);
   return <div></div>;
 };

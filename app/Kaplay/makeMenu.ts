@@ -122,5 +122,8 @@ export const makeMenu = (k: KAPLAYCtx, user: string) => {
         k.go("bossLevel");
       }
     });
+    k.onClick("competeButton", () => {
+      k.go("compete");
+    })
   });
 };

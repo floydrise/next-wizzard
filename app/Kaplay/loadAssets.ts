@@ -78,13 +78,6 @@ export const loadAssets = (k: KAPLAYCtx) => {
       attack: { from: 0, to: 3, loop: true },
     },
   });
-  k.loadSprite("boss2", "/sprites/bossSprite2.png", {
-    sliceY: 3,
-    sliceX: 3,
-    anims: {
-      bite: { from: 0, to: 7, loop: true },
-    },
-  });
   k.loadSprite("orcShaman", "/sprites/orcShaman.png", {
     sliceY: 1,
     sliceX: 4,
@@ -99,6 +92,14 @@ export const loadAssets = (k: KAPLAYCtx) => {
       attack: { from: 0, to: 1, loop: true },
     },
   });
+  k.loadSprite("competeBackground", "/sprites/competeBackground.png");
+  k.loadSprite("competeEnemy", "/sprites/competeEnemy.png", {
+    sliceY: 1,
+    sliceX: 8,
+    anims: {
+      idle: { from: 0, to: 7, loop: true },
+    },
+  });
 
   k.loadFont("press2p", "/fonts/PixelOperator8.woff2");
 
@@ -106,8 +107,8 @@ export const loadAssets = (k: KAPLAYCtx) => {
   k.loadSound("wind", "/sounds/wind.mp3");
   k.loadSound("explosion", "/sounds/explosion.mp3");
   k.loadSound("walk", "/sounds/walk.mp3");
-  k.loadSound("arcaneAttack", "/sounds/arcaneAttack.wav");
-  k.loadSound("wobbleAttack", "/sounds/wobbleAttack.wav");
+  k.loadSound("arcaneAttack", "/sounds/arcaneAttack.mp3");
+  k.loadSound("wobbleAttack", "/sounds/wobbleAttack.mp3");
   k.loadSound("death", "/sounds/death.mp3");
 
   k.loadMusic("bgMusic", "/music/bgMusic.mp3");
@@ -115,4 +116,5 @@ export const loadAssets = (k: KAPLAYCtx) => {
   k.loadMusic("desertMusic", "/music/desertMusic.mp3");
   k.loadMusic("bonfire", "/music/bonfire.mp3");
   k.loadMusic("bossMusic", "/music/bossMusic.mp3");
+  k.loadMusic("combatMusic", "/music/combatMusic.mp3")
 };

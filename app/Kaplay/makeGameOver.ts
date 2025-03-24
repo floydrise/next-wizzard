@@ -43,12 +43,14 @@ export const makeGameOver = (k: KAPLAYCtx) => {
         k.go("level2");
       } else if (lvl === "lvl3") {
         k.go("bossLevel");
+      } else if (lvl === "compete") {
+        k.go("compete");
       }
     });
 
     k.onKeyPress("escape", () => {
       music.stop();
-      store.set(levelAtom, "lvl1");
+      if (store.get(levelAtom) === "compete") store.set(levelAtom, "lvl1");
       k.go("menu");
     });
   });
