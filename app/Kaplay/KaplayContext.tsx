@@ -34,7 +34,7 @@ export const KaplayContext = ({ user }: { user: string }) => {
     makeLevel2(k);
     makeBossLevel(k);
     makeGameOver(k);
-    k.go("bossLevel");
+    k.go("menu");
   }, [user]);
   useEffect(() => {}, [score]);
   return <div></div>;

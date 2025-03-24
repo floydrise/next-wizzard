@@ -55,6 +55,7 @@ export const loadAssets = (k: KAPLAYCtx) => {
       attack: { from: 0, to: 1, loop: true },
     },
   });
+
   k.loadSprite("boss", "/sprites/boss.png", {
     sliceY: 1,
     sliceX: 4,
@@ -99,7 +100,7 @@ export const loadAssets = (k: KAPLAYCtx) => {
     },
   });
 
-  k.loadFont("press2p", "/fonts/PixelOperator8.ttf");
+  k.loadFont("press2p", "/fonts/PixelOperator8.woff2");
 
   k.loadSound("fire", "/sounds/fire.mp3");
   k.loadSound("wind", "/sounds/wind.mp3");

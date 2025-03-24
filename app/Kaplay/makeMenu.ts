@@ -49,9 +49,38 @@ export const makeMenu = (k: KAPLAYCtx, user: string) => {
       k.layer("button"),
       "startButton",
     ]);
-
     startButton.add([
       k.text("Start", { size: 32, font: "press2p" }),
+      k.anchor("center"),
+      k.color(k.Color.fromHex("#071821")),
+    ]);
+
+    const competeButton = k.add([
+      k.rect(32 * 6, 16 * 4),
+      k.pos(k.center().x - 300, k.center().y),
+      k.color(k.Color.fromHex("#306850")),
+      k.anchor("center"),
+      k.area(),
+      k.layer("button"),
+      "competeButton",
+    ]);
+    competeButton.add([
+      k.text("Compete", { size: 30, font: "press2p" }),
+      k.anchor("center"),
+      k.color(k.Color.fromHex("#071821")),
+    ]);
+
+    const statsButton = k.add([
+      k.rect(32 * 6, 16 * 4),
+      k.pos(k.center().x + 300, k.center().y),
+      k.color(k.Color.fromHex("#306850")),
+      k.anchor("center"),
+      k.area(),
+      k.layer("button"),
+      "statsButton",
+    ]);
+    statsButton.add([
+      k.text("Stats", { size: 32, font: "press2p" }),
       k.anchor("center"),
       k.color(k.Color.fromHex("#071821")),
     ]);
@@ -60,18 +89,30 @@ export const makeMenu = (k: KAPLAYCtx, user: string) => {
       startButton.color = k.Color.fromHex("#e0f8cf");
       k.setCursor("pointer");
     });
-
     k.onHoverEnd("startButton", () => {
       startButton.color = k.Color.fromHex("#306850");
       k.setCursor("default");
     });
 
-    k.onClick("startButton", () => {
+    k.onHover("statsButton", () => {
+      statsButton.color = k.Color.fromHex("#e0f8cf");
+      k.setCursor("pointer");
+    });
+    k.onHoverEnd("statsButton", () => {
+      statsButton.color = k.Color.fromHex("#306850");
       k.setCursor("default");
-      k.go("game");
     });
 
-    k.onKeyPress("enter", () => {
+    k.onHover("competeButton", () => {
+      competeButton.color = k.Color.fromHex("#e0f8cf");
+      k.setCursor("pointer");
+    });
+    k.onHoverEnd("competeButton", () => {
+      competeButton.color = k.Color.fromHex("#306850");
+      k.setCursor("default");
+    });
+
+    k.onClick("startButton", () => {
       k.setCursor("default");
       if (store.get(levelAtom) === "lvl1") {
         k.go("game");
