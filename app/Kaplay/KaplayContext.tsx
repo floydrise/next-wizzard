@@ -6,8 +6,6 @@ import { loadAssets } from "@/app/Kaplay/loadAssets";
 import { makeMenu } from "@/app/Kaplay/makeMenu";
 import { makeGame } from "@/app/Kaplay/makeGame";
 import { makeGameOver } from "@/app/Kaplay/makeGameOver";
-import { useAtomValue } from "jotai";
-import { scoreAtom } from "@/lib/store";
 import makeLevel2 from "@/app/Kaplay/makeLevel2";
 import makeWonScene from "@/app/Kaplay/makeWonScene";
 import {makeBossLevel} from "@/app/Kaplay/makeBossLevel";
