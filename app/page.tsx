@@ -6,7 +6,16 @@ export default async function Home() {
   const session = await auth();
   return (
     <div className={"flex  w-full h-full"}>
-      <KaplayContext user={session?.user?.name ?? "Player"} />
+      <KaplayContext
+        user={
+          session?.user ?? {
+            id: "",
+            name: "",
+            email: "",
+            image: "",
+          }
+        }
+      />
       <canvas
         id={"game-container"}
         className={"w-full h-full relative"}

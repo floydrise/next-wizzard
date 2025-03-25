@@ -8,9 +8,11 @@ import { makeGame } from "@/app/Kaplay/makeGame";
 import { makeGameOver } from "@/app/Kaplay/makeGameOver";
 import makeLevel2 from "@/app/Kaplay/makeLevel2";
 import makeWonScene from "@/app/Kaplay/makeWonScene";
-import {makeBossLevel} from "@/app/Kaplay/makeBossLevel";
+import { makeBossLevel } from "@/app/Kaplay/makeBossLevel";
 import makeCompete from "@/app/Kaplay/makeCompete";
-export const KaplayContext = ({ user }: { user: string }) => {
+import { User } from "next-auth";
+
+export const KaplayContext = ({ user }: { user: User }) => {
   useEffect(() => {
     const k = kaplay({
       letterbox: true,
@@ -25,12 +27,12 @@ export const KaplayContext = ({ user }: { user: string }) => {
     });
 
     loadAssets(k);
-    makeMenu(k, user);
+    makeMenu(k, user.name ?? "Player");
     makeGame(k);
     makeWonScene(k);
     makeLevel2(k);
     makeBossLevel(k);
-    makeCompete(k);
+    makeCompete(k, Number(user.id));
     makeGameOver(k);
     k.go("menu");
   }, [user]);

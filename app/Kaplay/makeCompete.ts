@@ -1,12 +1,13 @@
 import { KAPLAYCtx } from "kaplay";
-import {levelAtom, scoreAtom, store} from "@/lib/store";
+import { levelAtom, scoreAtom, store } from "@/lib/store";
 import {
   initialiseAttack,
   playerMovementAnimation,
   playerMovementLogic,
 } from "@/lib/gameLogic";
+import { insertScore } from "@/lib/actions";
 
-export default function makeCompete(k: KAPLAYCtx) {
+export default function makeCompete(k: KAPLAYCtx, user_id: number) {
   return k.scene("compete", () => {
     const music = k.play("combatMusic", { volume: 0.3, loop: true });
 
@@ -93,7 +94,7 @@ export default function makeCompete(k: KAPLAYCtx) {
         k.play("wind", { volume: 0.5 });
         k.add([
           k.pos(enemy.pos.x, enemy.pos.y + 32),
-          k.sprite("whirlwind", {anim: "attack"}),
+          k.sprite("whirlwind", { anim: "attack" }),
           k.area(),
           k.anchor("center"),
           k.offscreen({ destroy: true }),
@@ -117,29 +118,31 @@ export default function makeCompete(k: KAPLAYCtx) {
       makeEnemy();
     });
 
-    k.onCollide("player", "enemy", (player, enemy) => {
+    k.onCollide("player", "enemy", async (player, enemy) => {
       k.play("death");
       k.destroy(player);
       k.destroy(enemy);
       store.set(scoreAtom, score.value);
-      store.set(levelAtom, "compete")
+      store.set(levelAtom, "compete");
+      await insertScore(score.value, user_id);
       music.stop();
       k.go("gameOver");
     });
 
-    k.onCollide("player", "arrow",(player, arrow) => {
+    k.onCollide("player", "arrow", async (player, arrow) => {
       k.play("death");
       k.destroy(player);
       k.destroy(arrow);
       store.set(scoreAtom, score.value);
-      store.set(levelAtom, "compete")
+      store.set(levelAtom, "compete");
+      await insertScore(score.value, user_id);
       music.stop();
       k.go("gameOver");
     });
 
     k.onKeyPress("escape", () => {
       music.stop();
-      store.set(levelAtom, "lvl1")
+      store.set(levelAtom, "lvl1");
       k.go("menu");
     });
   });
