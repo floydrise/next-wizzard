@@ -126,5 +126,9 @@ export const makeMenu = (k: KAPLAYCtx, user: string) => {
       k.setCursor("default");
       k.go("compete");
     })
+    k.onClick("statsButton", () => {
+      k.setCursor("default");
+      k.go("scores");
+    })
   });
 };

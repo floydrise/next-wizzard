@@ -11,8 +11,15 @@ import makeWonScene from "@/app/Kaplay/makeWonScene";
 import { makeBossLevel } from "@/app/Kaplay/makeBossLevel";
 import makeCompete from "@/app/Kaplay/makeCompete";
 import { User } from "next-auth";
+import { makeScores } from "@/app/Kaplay/makeScores";
 
-export const KaplayContext = ({ user }: { user: User }) => {
+export const KaplayContext = ({
+  user,
+  playerScores,
+}: {
+  user: User;
+  playerScores: number[];
+}) => {
   useEffect(() => {
     const k = kaplay({
       letterbox: true,
@@ -33,8 +40,9 @@ export const KaplayContext = ({ user }: { user: User }) => {
     makeLevel2(k);
     makeBossLevel(k);
     makeCompete(k, Number(user.id));
+    makeScores(k, playerScores);
     makeGameOver(k);
     k.go("menu");
-  }, [user]);
+  }, [playerScores, user]);
   return <div></div>;
 };

@@ -1,11 +1,22 @@
 "use server";
 
 import { neon } from "@neondatabase/serverless";
+import {revalidatePath} from "next/cache";
+
+const dbUrl = process.env.DATABASE_URL;
+if (!dbUrl) throw new Error("DATABASE_URL is not set");
+const sql = neon(dbUrl);
 
 export const insertScore = async (score: number, user_id: number) => {
-  const dbUrl = process.env.DATABASE_URL;
-  if (!dbUrl) throw new Error("DATABASE_URL is not set");
-  const sql = neon(dbUrl);
   await sql`insert into scores (user_id, score)
               values (${user_id}, ${score})`;
+  revalidatePath("/");
+};
+
+export const fetchPlayerScores = async (userId: number) => {
+  const playerScores = await sql`select score
+                             from scores
+                             where user_id = ${userId}
+                             order by score desc limit 5`;
+  return playerScores;
 };
