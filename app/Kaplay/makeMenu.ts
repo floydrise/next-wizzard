@@ -123,6 +123,7 @@ export const makeMenu = (k: KAPLAYCtx, user: string) => {
       }
     });
     k.onClick("competeButton", () => {
+      k.setCursor("default");
       k.go("compete");
     })
   });

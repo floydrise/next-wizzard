@@ -12,7 +12,7 @@ export default function makeWonScene(k: KAPLAYCtx) {
       k.scale(6),
     ]);
     k.add([
-      k.text(lvl === "lvl3" ? "Beware, NecroEye is coming!" : "You won this round!", { font: "press2p", size: 32 }),
+      k.text(lvl === "lvl3" ? "Beware, NecroEye is coming!" : lvl === "lvl1" ? "You beat NecroEye, go compete" : "You won this round!", { font: "press2p", size: 32 }),
       k.pos(k.center()),
       k.anchor("center"),
     ]);

@@ -1,6 +1,10 @@
 import { KAPLAYCtx } from "kaplay";
-import { levelAtom, scoreAtom, store } from "@/lib/store";
-import {initialiseAttack, playerMovementAnimation, playerMovementLogic} from "@/lib/gameLogic";
+import { levelAtom, store } from "@/lib/store";
+import {
+  initialiseAttack,
+  playerMovementAnimation,
+  playerMovementLogic,
+} from "@/lib/gameLogic";
 
 export const makeGame = (k: KAPLAYCtx) => {
   return k.scene("game", () => {
@@ -68,7 +72,7 @@ export const makeGame = (k: KAPLAYCtx) => {
     playerMovementLogic(k, player);
 
     k.onKeyPress("space", () => {
-        initialiseAttack(k, player)
+      initialiseAttack(k, player);
     });
 
     k.onUpdate("fire", (fire) => {
@@ -117,7 +121,6 @@ export const makeGame = (k: KAPLAYCtx) => {
     k.onCollide("fire", "enemy", (fire, enemy) => {
       k.play("explosion", { volume: 0.6 });
       score.value++;
-      store.set(scoreAtom, score.value);
       score.text = `Score: ${score.value} / 20`;
       k.destroy(enemy);
       k.destroy(fire);
@@ -128,7 +131,6 @@ export const makeGame = (k: KAPLAYCtx) => {
       k.destroy(player);
       k.destroy(enemy);
       k.play("death");
-      store.set(scoreAtom, score.value);
       k.go("gameOver");
       music.stop();
     });
@@ -137,7 +139,6 @@ export const makeGame = (k: KAPLAYCtx) => {
       k.destroy(player);
       k.destroy(arrow);
       k.play("death");
-      store.set(scoreAtom, score.value);
       k.go("gameOver");
       music.stop();
     });

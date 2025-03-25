@@ -1,5 +1,5 @@
 import { KAPLAYCtx } from "kaplay";
-import { levelAtom, scoreAtom, store } from "@/lib/store";
+import { levelAtom, store } from "@/lib/store";
 import {
   initialiseAttack,
   playerMovementAnimation,
@@ -152,7 +152,6 @@ export default function makeLevel2(k: KAPLAYCtx) {
         k.destroy(arrow);
         score.value++;
         score.text = `Score: ${score.value} / 40`;
-        store.set(scoreAtom, score.value);
       }
     });
 
@@ -169,7 +168,6 @@ export default function makeLevel2(k: KAPLAYCtx) {
       k.play("death");
       k.destroy(player);
       k.destroy(enemy);
-      store.set(scoreAtom, score.value);
       music.stop();
       k.go("gameOver");
     });
@@ -178,7 +176,6 @@ export default function makeLevel2(k: KAPLAYCtx) {
       k.play("death");
       k.destroy(player);
       k.destroy(arrow);
-      store.set(scoreAtom, score.value);
       music.stop();
       k.go("gameOver");
     });

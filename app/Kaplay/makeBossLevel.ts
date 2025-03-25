@@ -4,7 +4,7 @@ import {
   playerMovementAnimation,
   playerMovementLogic,
 } from "@/lib/gameLogic";
-import {levelAtom, store} from "@/lib/store";
+import { levelAtom, store } from "@/lib/store";
 
 export const makeBossLevel = (k: KAPLAYCtx) => {
   return k.scene("bossLevel", () => {
@@ -213,6 +213,14 @@ export const makeBossLevel = (k: KAPLAYCtx) => {
     k.onCollide("player", "bossAttack", (player, arrow) => {
       k.destroy(player);
       k.destroy(arrow);
+      k.play("death");
+      k.go("gameOver");
+      music.stop();
+    });
+
+    k.onCollide("player", "greenBall", (player, greenBall) => {
+      k.destroy(player);
+      k.destroy(greenBall);
       k.play("death");
       k.go("gameOver");
       music.stop();
