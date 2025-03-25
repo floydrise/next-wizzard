@@ -15,10 +15,8 @@ import { makeScores } from "@/app/Kaplay/makeScores";
 
 export const KaplayContext = ({
   user,
-  playerScores,
 }: {
   user: User;
-  playerScores: number[];
 }) => {
   useEffect(() => {
     const k = kaplay({
@@ -40,9 +38,9 @@ export const KaplayContext = ({
     makeLevel2(k);
     makeBossLevel(k);
     makeCompete(k, Number(user.id));
-    makeScores(k, playerScores);
+    makeScores(k, Number(user.id));
     makeGameOver(k);
     k.go("menu");
-  }, [playerScores, user]);
+  }, [user]);
   return <div></div>;
 };

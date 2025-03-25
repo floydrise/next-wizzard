@@ -20,7 +20,6 @@ export default async function Home() {
             image: "",
           }
         }
-        playerScores={playerScores}
       />
       <canvas
         id={"game-container"}
