@@ -124,7 +124,11 @@ export default function makeCompete(k: KAPLAYCtx, user_id: number) {
       k.destroy(enemy);
       store.set(scoreAtom, score.value);
       store.set(levelAtom, "compete");
-      await insertScore(score.value, user_id);
+      await insertScore(
+        score.value,
+        user_id,
+        new Date().toISOString().split("T")[0],
+      );
       music.stop();
       k.go("gameOver");
     });
@@ -135,7 +139,11 @@ export default function makeCompete(k: KAPLAYCtx, user_id: number) {
       k.destroy(arrow);
       store.set(scoreAtom, score.value);
       store.set(levelAtom, "compete");
-      await insertScore(score.value, user_id);
+      await insertScore(
+        score.value,
+        user_id,
+        new Date().toISOString().split("T")[0],
+      );
       music.stop();
       k.go("gameOver");
     });
